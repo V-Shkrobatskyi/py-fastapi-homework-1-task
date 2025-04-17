@@ -1,5 +1,5 @@
-# Write your code here
 import datetime
+from typing import List
 
 from pydantic import BaseModel
 
@@ -18,6 +18,18 @@ class MovieDetailResponseSchema(BaseModel):
     budget: float = None
     revenue: float = None
     country: str = None
+
+    class Config:
+        from_attributes = True
+
+
+class MovieListResponseSchema(BaseModel):
+    total_items: int
+    total_pages: int
+    current_page: int
+    prev_page: str | None
+    next_page: str | None
+    movies: List[MovieDetailResponseSchema]
 
     class Config:
         from_attributes = True
