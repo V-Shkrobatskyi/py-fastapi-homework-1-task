@@ -24,8 +24,8 @@ async def list_movies(
     per_page: int = Query(10, ge=1, le=100),
     page: int = Query(1, ge=1)
 ):
-    total_result = await db.execute(select(MovieModel))
-    total_items = len(total_result.scalars().all())
+    total_items_query = await db.execute(select(func.count()).select_from(MovieModel))
+    total_items = total_items_query.scalar()
     total_pages = (total_items + per_page - 1) // per_page
 
     offset = (page - 1) * per_page
